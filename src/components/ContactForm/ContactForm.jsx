@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { add } from 'redux/sliceContact';
-import { getContacts } from 'redux/selectors';
+import { selectTasks } from 'redux/selectors';
+import { addContact } from 'components/api/api';
 
-const ContactForm = () => {
+export const ContactForm = () => {
   const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
@@ -18,7 +18,7 @@ const ContactForm = () => {
     }
   };
 
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectTasks);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -35,7 +35,7 @@ const ContactForm = () => {
         name,
         number
       };
-      dispatch(add(contact));
+      dispatch(addContact(contact));
       setName('');
       setNumber('');
     }
@@ -65,5 +65,3 @@ const ContactForm = () => {
     </form>
   );
 };
-
-export default ContactForm;

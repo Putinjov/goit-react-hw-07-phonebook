@@ -1,27 +1,27 @@
-import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { query } from 'redux/sliceFilter';
-import { getFilter } from 'redux/selectors';
+import { selectStatusFilter } from 'redux/selectors';
+import { nanoid } from '@reduxjs/toolkit';
 
-const Filter = () => {
-  const filter = useSelector(getFilter);
+
+const filterInputId = nanoid();
+
+export const Filter = () => {
+  const filter = useSelector(selectStatusFilter);
   const dispatch = useDispatch();
-
   return (
     <div className='filter'>
-      <label htmlFor="filter">Filter contacts: </label>
+      <label htmlFor={filterInputId}>Filter contacts: </label>
       <input
         className='filter-input'
         type="text"
         id="filter"
         value={filter}
         onChange={(evt) => {
-          dispatch(query(evt.currentTarget.value));
+          dispatch(query(evt.target.value.trim()));
         }}
         placeholder="Find contacts by name"
       />
     </div>
   );
 };
-
-export default Filter;

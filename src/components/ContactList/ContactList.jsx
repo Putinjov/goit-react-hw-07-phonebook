@@ -1,26 +1,39 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import ContactItem from '../ContactItem/ContactItem';
-import { getContacts, getFilter } from 'redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { selectTasks, selectStatusFilter } from 'redux/selectors';
+import { deleteContact } from 'components/api/api';
 
-const ContactList = () => {
-  
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
+export const ContactList = () => {
+  const dispatch = useDispatch();
+  const contacts = useSelector(selectTasks);
+  const filter = useSelector(selectStatusFilter);
+  console.log(contacts)
+      console.log(filter)
 
-   const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
+  const filteredContacts = contacts.filter(contact => contact.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
-    <ul className='contacts-list'>
-      {
-        filteredContacts.map(contact => (
-          <ContactItem key={contact.id} contact={contact} />
-        ))
-      }
-      {filteredContacts.length === 0 && (<li key={'Not found'}>Not found</li>)}
-    </ul>
+    <div>
+      <ul className={'contacts-list'}>
+          {filteredContacts.map(contact => (
+            <li key={contact.id} className={'contacts-item'}>
+              <span>{contact.name} : </span>
+              <span>{contact.phone} </span>
+              <Button
+          size='small'
+          variant="outlined"
+          startIcon={<DeleteIcon />}
+          color="error"
+          onClick={() => dispatch(deleteContact(contact.id))}
+        >
+          Delete
+        </Button>
+            </li>
+          ))}
+        </ul>
+    </div>
   );
 };
 
-export default ContactList;
 
