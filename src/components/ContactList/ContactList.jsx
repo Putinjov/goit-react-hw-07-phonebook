@@ -19,7 +19,7 @@ export const ContactList = () => {
           {filteredContacts.map(contact => (
             <li key={contact.id} className={'contacts-item'}>
               <span>{contact.name} : </span>
-              <span>{contact.phone} </span>
+              <span>{contact.number} </span>
               <Button
           size='small'
           variant="outlined"
